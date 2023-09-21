@@ -9,7 +9,12 @@ var connectionString = builder.Configuration.GetConnectionString("TaskManagement
 builder.Services.AddDbContext<TaskManagementContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<MainUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+
+builder.Services.AddDefaultIdentity<MainUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<TaskManagementContext>();
 
 // Add services to the container.
