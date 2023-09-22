@@ -22,6 +22,33 @@ namespace AdvancedTopic_FinalProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Areas.Identity.Data.MainRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
             modelBuilder.Entity("AdvancedTopic_FinalProject.Areas.Identity.Data.MainUser", b =>
                 {
                     b.Property<string>("Id")
@@ -87,31 +114,126 @@ namespace AdvancedTopic_FinalProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Project", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("MainUserID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                    b.HasIndex("MainUserID");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("MainRoleID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MainRoleID");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.RoleProject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleProject");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.RoleTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("RoleTask");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequiredHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -224,9 +346,80 @@ namespace AdvancedTopic_FinalProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Project", b =>
+                {
+                    b.HasOne("AdvancedTopic_FinalProject.Areas.Identity.Data.MainUser", "MainUser")
+                        .WithMany("Projects")
+                        .HasForeignKey("MainUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MainUser");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Role", b =>
+                {
+                    b.HasOne("AdvancedTopic_FinalProject.Areas.Identity.Data.MainRole", "MainRole")
+                        .WithMany("Roles")
+                        .HasForeignKey("MainRoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MainRole");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.RoleProject", b =>
+                {
+                    b.HasOne("AdvancedTopic_FinalProject.Models.Project", "Project")
+                        .WithMany("RoleProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdvancedTopic_FinalProject.Models.Role", "Role")
+                        .WithMany("RoleProjects")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.RoleTask", b =>
+                {
+                    b.HasOne("AdvancedTopic_FinalProject.Models.Role", "Role")
+                        .WithMany("RoleTasks")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdvancedTopic_FinalProject.Models.Task", "Task")
+                        .WithMany("RoleTasks")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Task", b =>
+                {
+                    b.HasOne("AdvancedTopic_FinalProject.Models.Project", "Project")
+                        .WithMany("Tasksids")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("AdvancedTopic_FinalProject.Areas.Identity.Data.MainRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,7 +446,7 @@ namespace AdvancedTopic_FinalProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("AdvancedTopic_FinalProject.Areas.Identity.Data.MainRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -273,6 +466,35 @@ namespace AdvancedTopic_FinalProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Areas.Identity.Data.MainRole", b =>
+                {
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Areas.Identity.Data.MainUser", b =>
+                {
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Project", b =>
+                {
+                    b.Navigation("RoleProjects");
+
+                    b.Navigation("Tasksids");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Role", b =>
+                {
+                    b.Navigation("RoleProjects");
+
+                    b.Navigation("RoleTasks");
+                });
+
+            modelBuilder.Entity("AdvancedTopic_FinalProject.Models.Task", b =>
+                {
+                    b.Navigation("RoleTasks");
                 });
 #pragma warning restore 612, 618
         }
