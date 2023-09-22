@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdvancedTopic_FinalProject.Controllers
 {
     [Authorize(Roles = "Administrator")]
+
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
