@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace AdvancedTopicsAuthDemo.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -27,7 +28,7 @@ namespace AdvancedTopicsAuthDemo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string roleName = "Investigator";
+            string roleName = "Administrator";
 
             bool roleExists = await _roleManager.FindByNameAsync(roleName) != null;
 
@@ -43,7 +44,7 @@ namespace AdvancedTopicsAuthDemo.Controllers
         [HttpPost]
         public async Task<IActionResult> GetInvestigatorRole()
         {
-            string roleName = "Investigator";
+            string roleName = "Administrator";
 
             DemoUser loggedIn = _context.Users.FirstOrDefault(u => User.Identity.Name == u.UserName);
 
@@ -64,7 +65,7 @@ namespace AdvancedTopicsAuthDemo.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Investigator")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Privacy()
         {
             return View();
