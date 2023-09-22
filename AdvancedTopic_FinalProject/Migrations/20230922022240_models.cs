@@ -70,26 +70,6 @@ namespace AdvancedTopic_FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MainRoleID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Roles_AspNetRoles_MainRoleID",
-                        column: x => x.MainRoleID,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -181,47 +161,47 @@ namespace AdvancedTopic_FinalProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    MainUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    DemoUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_AspNetUsers_MainUserID",
-                        column: x => x.MainUserID,
+                        name: "FK_Projects_AspNetUsers_DemoUserID",
+                        column: x => x.DemoUserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleProject",
+                name: "DemoUserProjects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleProject", x => x.Id);
+                    table.PrimaryKey("PK_DemoUserProjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleProject_Projects_ProjectId",
+                        name: "FK_DemoUserProjects_AspNetUsers_DemoUserId",
+                        column: x => x.DemoUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DemoUserProjects_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoleProject_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "Taasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -233,9 +213,9 @@ namespace AdvancedTopic_FinalProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_Taasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectId",
+                        name: "FK_Taasks_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -243,27 +223,27 @@ namespace AdvancedTopic_FinalProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleTask",
+                name: "DemoUserTasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    TaskId = table.Column<int>(type: "int", nullable: false)
+                    DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TaaskId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleTask", x => x.Id);
+                    table.PrimaryKey("PK_DemoUserTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleTask_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_DemoUserTasks_AspNetUsers_DemoUserId",
+                        column: x => x.DemoUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_RoleTask_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
+                        name: "FK_DemoUserTasks_Taasks_TaaskId",
+                        column: x => x.TaaskId,
+                        principalTable: "Taasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -308,38 +288,33 @@ namespace AdvancedTopic_FinalProject.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_MainUserID",
-                table: "Projects",
-                column: "MainUserID");
+                name: "IX_DemoUserProjects_DemoUserId",
+                table: "DemoUserProjects",
+                column: "DemoUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleProject_ProjectId",
-                table: "RoleProject",
+                name: "IX_DemoUserProjects_ProjectId",
+                table: "DemoUserProjects",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleProject_RoleId",
-                table: "RoleProject",
-                column: "RoleId");
+                name: "IX_DemoUserTasks_DemoUserId",
+                table: "DemoUserTasks",
+                column: "DemoUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_MainRoleID",
-                table: "Roles",
-                column: "MainRoleID");
+                name: "IX_DemoUserTasks_TaaskId",
+                table: "DemoUserTasks",
+                column: "TaaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleTask_RoleId",
-                table: "RoleTask",
-                column: "RoleId");
+                name: "IX_Projects_DemoUserID",
+                table: "Projects",
+                column: "DemoUserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleTask_TaskId",
-                table: "RoleTask",
-                column: "TaskId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ProjectId",
-                table: "Tasks",
+                name: "IX_Taasks_ProjectId",
+                table: "Taasks",
                 column: "ProjectId");
         }
 
@@ -361,19 +336,16 @@ namespace AdvancedTopic_FinalProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "RoleProject");
+                name: "DemoUserProjects");
 
             migrationBuilder.DropTable(
-                name: "RoleTask");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "DemoUserTasks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Taasks");
 
             migrationBuilder.DropTable(
                 name: "Projects");

@@ -1,20 +1,19 @@
 using Microsoft.AspNetCore.Identity;
-using AdvancedTopic_FinalProject.Areas.Identity.Data;
-
 using Microsoft.EntityFrameworkCore;
-using AdvancedTopic_FinalProject.Data;
-using Microsoft.Extensions.DependencyInjection;
+using AdvancedTopicsAuthDemo.Data;
+using AdvancedTopicsAuthDemo.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("TaskManagementContextConnection") ?? throw new InvalidOperationException("Connection string 'TaskManagementContextConnection' not found.");
-builder.Services.AddDbContext<TaskManagementContext>(options =>
+var connectionString = builder.Configuration.GetConnectionString("ATAuthDemoContextConnection") ?? throw new InvalidOperationException("Connection string 'ATAuthDemoContextConnection' not found.");
+
+builder.Services.AddDbContext<ATAuthDemoContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<MainUser>(options => {
+builder.Services.AddDefaultIdentity<DemoUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
-})
+    })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<TaskManagementContext>();
+    .AddEntityFrameworkStores<ATAuthDemoContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -33,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication(); ;
+app.UseAuthentication();;
 
 app.UseAuthorization();
 

@@ -1,10 +1,11 @@
-﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace AdvancedTopic_FinalProject.Models
+namespace AdvancedTopicsAuthDemo.Models
 {
     public class Project
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Project title is required.")]
@@ -12,17 +13,17 @@ namespace AdvancedTopic_FinalProject.Models
         public string title { get; set; }
 
 
-        public string MainUserID { get; set; }
-        public MainUser MainUser { get; set; }
+        public string DemoUserID { get; set; }
+        public DemoUser DemoUser { get; set; }
 
 
 
 
-        
-        public HashSet<Task> Tasksids { get; set; } = new HashSet<Task>();
+
+        public HashSet<Taask> Tasksids { get; set; } = new HashSet<Taask>();
 
 
-        public ICollection<RoleProject> RoleProjects { get; set; } = new List<RoleProject>();
+        public ICollection<DemoUserProject> DemoUserProjects { get; set; } = new List<DemoUserProject>();
 
 
 
