@@ -21,8 +21,8 @@ public class ATAuthDemoContext : IdentityDbContext<DemoUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
-    protected DbSet<Project> Projects { get; set; } = default!;
-    protected DbSet<Taask> Taasks { get; set; } = default!;
-    protected DbSet<DemoUserProject> DemoUserProjects { get; set; } = default!;
-    protected DbSet<DemoUserTask> DemoUserTasks { get; set; } = default!;
+    public DbSet<Project> Projects { get; set; } = default!;
+    public DbSet<Taask> Taasks { get; set; } = default!;
+    public DbSet<DemoUserProject> DemoUserProjects { get; set; } = default!;
+    public DbSet<DemoUserTask> DemoUserTasks { get; set; } = default!;
 }

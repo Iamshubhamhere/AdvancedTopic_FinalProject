@@ -1,0 +1,16 @@
+﻿.task-table {
+    margin-left: 50px; 
+    border-collapse: collapse; 
+    margin-bottom:30px;
+    margin-top:10px;
+    color:gray;
+}
+
+
+.developer-table {
+    margin-left: 50px;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    color: gray;
+}

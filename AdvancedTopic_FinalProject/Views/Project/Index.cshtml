@@ -1,8 +1,117 @@
-﻿@{
+﻿@model List<AdvancedTopicsAuthDemo.Models.Project>
+
+@{
     ViewData["Title"] = "Project Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Project index page.</h1>
-    
+<link rel="stylesheet" href="~/css/yifan.css" />
+<div>
+    <h3>projects</h3>
 </div>
+<a href="@Url.Action("Create") ">Create a new Project</a>
+    <container>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model)
+            {
+                <tr>
+                    <td>@project.Id</td>
+                    <td>@project.title</td>
+                    <td>
+                        <a asp-controller="Task" asp-action="Create" asp-route-projectId="@project.Id">Create a new task</a> |
+                        <a asp-action="Details" asp-route-id="@project.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td colspan="3">
+
+                        <table class="developer-table">
+                            <thead>
+                                <tr>
+
+                                    <th>Developer Name</th>
+                                    
+                                    <th>Actions</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in project.Tasksids)
+                                {
+                                    <tr>
+                                        <td>@task.Id</td>
+                                        <td>@task.title</td>
+                                        
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr>
+                    
+                    <td colspan="3">
+                        
+                        <table class="task-table">
+                            <thead>
+                                <tr>
+                                    <th>task ID</th>
+                                    <th>task Title</th>
+                                    <th>task RequiredHours</th>
+                                    <th>task Priority</th>
+                                    <th>Actions</th>
+                                    <td>
+                                        <a asp-action="Index" asp-route-sortId="@project.Id" asp-route-sortBy="RequiredHours">Sort by RequiredHours</a>
+                                        <a asp-action="Index" asp-route-sortId="@project.Id" asp-route-sortBy="Priority">Sort by Priority</a>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in project.Tasksids)
+                                {
+                                    <tr>
+                                        <td>@task.Id</td>
+                                        <td>@task.title</td>
+                                        <td>@task.RequiredHours</td>
+                                        <td>@task.Priority</td>
+                                        
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
+
+    </container>
+
