@@ -7,6 +7,7 @@ namespace AdvancedTopicsAuthDemo.Areas.Identity.Data
     {
         //public ICollection<DemoUserProject> DemoUserProjects { get; set; } = new List<DemoUserProject>();
 
+
         //public ICollection<DemoUserTask> DemoUserTasks { get; set; } = new List<DemoUserTask>();
     }
 }
