@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
 using System.Security.Claims;
+using Project = AdvancedTopicsAuthDemo.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
 {
@@ -77,15 +78,6 @@ namespace AdvancedTopic_FinalProject.Controllers
                 }
             }
 
-            var developerRoleId = _context.Roles
-                .Where(role => role.Name == "Developer")
-                .Select(role => role.Id)
-                .FirstOrDefault();
-
-            var developerUserIds = _context.UserRoles
-                .Where(userRole => userRole.RoleId == developerRoleId)
-                .Select(userRole => userRole.UserId)
-                .ToList();
 
             
 
