@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AdvancedTopic_FinalProject.Migrations
 {
-    public partial class models : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -180,7 +180,7 @@ namespace AdvancedTopic_FinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -228,7 +228,7 @@ namespace AdvancedTopic_FinalProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TaaskId = table.Column<int>(type: "int", nullable: false)
                 },

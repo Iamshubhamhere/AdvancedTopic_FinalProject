@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdvancedTopic_FinalProject.Migrations
 {
     [DbContext(typeof(ATAuthDemoContext))]
-    [Migration("20230925055632_fix2")]
-    partial class fix2
+    [Migration("20230925185803_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
