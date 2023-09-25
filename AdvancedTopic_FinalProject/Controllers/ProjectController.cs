@@ -4,6 +4,7 @@ using AdvancedTopicsAuthDemo.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,6 +41,26 @@ namespace AdvancedTopic_FinalProject.Controllers
 
            
             var projects = _context.Projects.Include(project => project.Tasksids).OrderBy(project => project.title).ToList();
+
+            var projectUserNames = new Dictionary<int, List<string>>();
+
+            foreach (var project in projects)
+            {
+                var userIds = _context.DemoUserProjects
+                    .Where(du => du.ProjectId == project.Id)
+                    .Select(du => du.UserId)
+                    .ToList();
+
+                var userNames = _context.Users
+                    .Where(u => userIds.Contains(u.Id))
+                    .Select(u => u.UserName)
+                    .ToList();
+
+                projectUserNames[project.Id] = userNames;
+            }
+
+            ViewBag.ProjectUserNames = projectUserNames;
+
 
             if (string.IsNullOrEmpty(sortBy))
             {
@@ -155,6 +176,65 @@ namespace AdvancedTopic_FinalProject.Controllers
 
             return View(project);
         }
+
+
+        public async Task<IActionResult> AddToDeveloper(int id)
+        {
+            var userIds = _context.DemoUserProjects
+                .Where(du => du.ProjectId == id)
+                .Select(du => du.UserId)
+                .ToList();
+
+            var RoleId = _roleManager.Roles.FirstOrDefault(r => r.Name == "Developer");
+
+            var developers = _context.UserRoles
+                .Where(userRole => userRole.RoleId == RoleId.Id)
+                .Select(userRole => userRole.UserId)
+                .ToList();
+
+            
+            var usersNotInProject = developers.Except(userIds).ToList();
+
+
+            List<DemoUser> usersList = new List<DemoUser>();
+
+            foreach (var userId in usersNotInProject)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    usersList.Add(user);
+                }
+            }
+            ViewBag.projectName = _context.Projects.FirstOrDefault(p => p.Id == id);
+            ViewBag.UsersNotInProject = usersList;
+            ViewBag.PId = id;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToDeveloper(int Pid, List<string> AreChecked)
+        {
+
+            foreach (var selectedUserId in AreChecked)
+            {
+                var demoUserProject = new DemoUserProject
+                {
+                    UserId = selectedUserId,
+                    ProjectId = Pid
+                };
+
+                _context.DemoUserProjects.Add(demoUserProject);
+            }
+
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction("Index");
+        }
+
 
     }
 }

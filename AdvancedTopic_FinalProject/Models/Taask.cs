@@ -21,7 +21,7 @@ namespace AdvancedTopicsAuthDemo.Models
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
-        public ICollection<DemoUserTask> DemoUserTasks { get; set; } = new List<DemoUserTask>();
+        //public ICollection<DemoUserTask> DemoUserTasks { get; set; } = new List<DemoUserTask>();
     }
 
     public enum Priority

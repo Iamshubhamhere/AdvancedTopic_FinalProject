@@ -8,7 +8,7 @@
     <h3>projects</h3>
 </div>
 <a href="@Url.Action("Create") ">Create a new Project</a>
-    <container>
+
     <table>
         <thead>
             <tr>
@@ -29,56 +29,31 @@
                         <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
                     </td>
                 </tr>
-
+                <!-- developer -->
                 <tr>
-
                     <td colspan="3">
-
                         <table class="developer-table">
-                            <thead>
+                            <thead>                             
                                 <tr>
-
-                                    <th>Developer Name</th>
-                                    
-                                    <th>Actions</th>
-                                    
+                                    <th>Developer Name</th> 
+                                    <th><a asp-action="AddToDeveloper" asp-route-id="@project.Id">Add To Developer</a></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var task in project.Tasksids)
-                                {
-                                    <tr>
-                                        <td>@task.Id</td>
-                                        <td>@task.title</td>
-                                        
 
-                                    </tr>
-                                }
+                            @foreach (var userName in ViewBag.ProjectUserNames[project.Id])
+                            {
+                                <tr>
+                                    <td>@userName</td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </td>
                 </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <!-- task -->
                 <tr>
-                    
-                    <td colspan="3">
-                        
+                    <td colspan="3">  
                         <table class="task-table">
                             <thead>
                                 <tr>
@@ -107,11 +82,9 @@
                             </tbody>
                         </table>
                     </td>
-                </tr>
-                
+                </tr>  
             }
         </tbody>
     </table>
 
-    </container>
 
