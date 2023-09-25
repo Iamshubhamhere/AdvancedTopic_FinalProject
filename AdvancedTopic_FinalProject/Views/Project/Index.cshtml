@@ -12,7 +12,7 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Project ID</th>
                 <th>Title</th>
                 <th>Action</th>
             </tr>
@@ -20,7 +20,7 @@
         <tbody>
             @foreach (var project in Model)
             {
-                <tr>
+                <tr class="projectHead">
                     <td>@project.Id</td>
                     <td>@project.title</td>
                     <td>
@@ -31,20 +31,20 @@
                 </tr>
                 <!-- developer -->
                 <tr>
-                    <td colspan="3">
+                    <td colspan="3" class="DForP">
                         <table class="developer-table">
-                            <thead>                             
-                                <tr>
-                                    <th>Developer Name</th> 
-                                    <th><a asp-action="AddToDeveloper" asp-route-id="@project.Id">Add To Developer</a></th>
+                        <thead class="DForP">
+                            <tr class="DForP">
+                                <th class="DForP">Developer Name</th>
+                                <th class="DForP"><a asp-action="AddToDeveloper" asp-route-id="@project.Id">Add developer to project</a></th>
                                 </tr>
                             </thead>
                             <tbody>
 
                             @foreach (var userName in ViewBag.ProjectUserNames[project.Id])
                             {
-                                <tr>
-                                    <td>@userName</td>
+                                <tr class="DForP">
+                                    <td class="DForP">@userName</td>
                                 </tr>
                             }
                             </tbody>
@@ -53,16 +53,16 @@
                 </tr>
                 <!-- task -->
                 <tr>
-                    <td colspan="3">  
-                        <table class="task-table">
-                            <thead>
-                                <tr>
-                                    <th>task ID</th>
-                                    <th>task Title</th>
-                                    <th>task RequiredHours</th>
-                                    <th>task Priority</th>
-                                    <th>Actions</th>
-                                    <td>
+                <td colspan="3" class="DForT">
+                    <table class="task-table" class="DForT">
+                        <thead class="DForT">
+                            <tr class="DForT">
+                                <th class="DForT"> Taks ID</th>
+                                <th class="DForT">Title</th>
+                                <th class="DForT">RequiredHours</th>
+                                <th class="DForT">Priority</th>
+                                <th class="DForT">Actions</th>
+                                <td class="DForT">
                                         <a asp-action="Index" asp-route-sortId="@project.Id" asp-route-sortBy="RequiredHours">Sort by RequiredHours</a>
                                         <a asp-action="Index" asp-route-sortId="@project.Id" asp-route-sortBy="Priority">Sort by Priority</a>
                                     </td>
@@ -71,19 +71,29 @@
                             <tbody>
                                 @foreach (var task in project.Tasksids)
                                 {
-                                    <tr>
-                                        <td>@task.Id</td>
-                                        <td>@task.title</td>
-                                        <td>@task.RequiredHours</td>
-                                        <td>@task.Priority</td>
-                                        
+                                <tr class="DForT">
+                                    <td class="DForT">@task.Id</td>
+                                    <td class="DForT">@task.title</td>
+                                    <td class="DForT">@task.RequiredHours</td>
+                                    <td class="DForT">@task.Priority</td>
+                                    <th class="DForT"><a asp-action="AddToTask" asp-route-id="@project.Id" asp-route-Taskid="@task.Id">Add developer to task</a></th>
                                     </tr>
+                                <tr class="DTName">
+                                    <td class="DTName">Developer name</td>
+                                    </tr>
+                                @foreach (var userName in ViewBag.taskUserNames[task.Id])
+                                {
+                                    <tr class="DTName">
+                                        <td class="DTName">@userName</td>
+                                    </tr>
+                                }
                                 }
                             </tbody>
                         </table>
                     </td>
-                </tr>  
-            }
+                </tr>
+            
+        }
         </tbody>
     </table>
 

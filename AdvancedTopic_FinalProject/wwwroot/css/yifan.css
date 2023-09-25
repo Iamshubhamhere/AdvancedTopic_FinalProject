@@ -1,16 +1,87 @@
-﻿.task-table {
-    margin-left: 50px; 
-    border-collapse: collapse; 
-    margin-bottom:30px;
-    margin-top:10px;
-    color:gray;
+﻿table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
 }
 
 
+th {
+    background-color: #f2f2f2;
+}
+
+
+tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+
 .developer-table {
-    margin-left: 50px;
+    width: 100%;
     border-collapse: collapse;
-    margin-bottom: 30px;
     margin-top: 10px;
-    color: gray;
+}
+
+    .developer-table th, .developer-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .task-table th, .task-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+
+    .task-table a {
+        margin-left: 10px;
+        color: #007bff;
+    }
+
+
+.projectHead{
+    background-color:pink!important;
+}
+
+.DForP{
+    background-color:khaki!important;
+}
+
+.developer-table {
+    background-color: khaki!important;
+}
+
+.DForT {
+    background-color:lightskyblue!important;
+}
+
+.DTName {
+    background-color:slateblue!important;
 }

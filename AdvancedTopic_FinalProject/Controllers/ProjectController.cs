@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
+using System.Linq;
 using System.Security.Claims;
 using Project = AdvancedTopicsAuthDemo.Models.Project;
 
@@ -40,7 +41,7 @@ namespace AdvancedTopic_FinalProject.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
            
-            var projects = _context.Projects.Include(project => project.Tasksids).OrderBy(project => project.title).ToList();
+            var projects = _context.Projects.Include(project => project.Tasksids).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
@@ -60,6 +61,33 @@ namespace AdvancedTopic_FinalProject.Controllers
             }
 
             ViewBag.ProjectUserNames = projectUserNames;
+
+
+
+            var taskUserNames = new Dictionary<int, List<string>>();
+            var tasks = _context.Taasks.ToList();
+
+            foreach (var taask in tasks)
+            {
+                var userIds = _context.DemoUserTasks
+                    .Where(du => du.TaaskId == taask.Id)
+                    .Select(du => du.RoleId)
+                    .ToList();
+
+                var userNames = _context.Users
+                    .Where(u => userIds.Contains(u.Id))
+                    .Select(u => u.UserName)
+                    .ToList();
+
+                taskUserNames[taask.Id] = userNames;
+            }
+            ViewBag.taskUserNames = taskUserNames;
+
+
+
+
+
+
 
 
             if (string.IsNullOrEmpty(sortBy))
@@ -235,6 +263,60 @@ namespace AdvancedTopic_FinalProject.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public async Task<IActionResult> AddToTask(int id, int Taskid)
+        {
+            var userids = _context.DemoUserTasks
+                .Where(du => du.TaaskId == Taskid)
+                .Select(du => du.RoleId)
+                .ToList();
+
+
+            var userProjects = _context.DemoUserProjects
+                .Where(du => du.ProjectId == id)
+                .ToList();
+
+            
+
+            var userIds = userProjects.Select(du => du.UserId).ToList();
+
+
+            var usersNotInTask = userIds.Except(userids).ToList();
+
+
+            var users = _context.Users
+                .Where(u => usersNotInTask.Contains(u.Id))
+                .ToList();
+
+            ViewBag.TId = Taskid;
+            ViewBag.TaskName = _context.Taasks.FirstOrDefault(p => p.Id == Taskid);
+
+            ViewBag.users = users;
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddToTask(int Tid, List<string> AreChecked)
+        {
+
+            foreach (var selectedUserId in AreChecked)
+            {
+                var demoUserTasks = new DemoUserTask
+                {
+                    RoleId = selectedUserId,
+                    TaaskId = Tid
+                };
+
+                _context.DemoUserTasks.Add(demoUserTasks);
+            }
+
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction("Index");
+        }
 
     }
 }
