@@ -68,13 +68,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var task in project.Tasksids)
+                                @foreach (var task in project.Tasks)
                                 {
                                 <tr class="DForT">
                                     <td class="DForT">@task.title</td>
                                     <td class="DForT">@task.RequiredHours</td>
                                     <td class="DForT">@task.Priority</td>
-                                    <th class="DForT"><a asp-action="AddToTask" asp-route-id="@project.Id" asp-route-Taskid="@task.Id">Add developer to task</a></th>
+                                    <th class="DForT"><a asp-action="AddToTask" asp-route-id="@project.Id" asp-route-Taskid="@task.Id">Add developer to task</a> |
+                                        <a asp-controller="Task" asp-action="Delete" asp-route-id="@project.Id" asp-route-Taskid="@task.Id">Delete task</a>
+                                    </th>
                                     </tr>
                                 <tr class="DTName">
                                     <td class="DTName">Developer name</td>

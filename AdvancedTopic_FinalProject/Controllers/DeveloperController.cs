@@ -1,8 +1,13 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+﻿
+using AdvancedTopicsAuthDemo.Models.ViewModel;
+using AdvancedTopicsAuthDemo.Areas.Identity.Data;
 using AdvancedTopicsAuthDemo.Data;
+using AdvancedTopicsAuthDemo.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AdvancedTopic_FinalProject.Controllers
 {
@@ -23,9 +28,109 @@ namespace AdvancedTopic_FinalProject.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
+
         {
+          
             return View();
+        }
+        public async Task<IActionResult> ProjectsAssigned()
+
+        {
+            var CurrentUserId = _userManager.GetUserId(User);
+            var userProjects = _context.DemoUserProjects
+                                           .Include(d => d.Project)
+                                           .Where(p => p.UserId == CurrentUserId)
+                                           .Select(d => d.Project)
+                                           .ToList();
+
+            List<ProjectTaskViewModel> ProjectTask = new List<ProjectTaskViewModel>();
+
+            foreach (var project in userProjects)
+            {
+                var assignedTask = _context.DemoUserTasks
+                                           .Where(t => t.RoleId == CurrentUserId && t.Taask.ProjectId == project.Id)
+                                           .Select(d => d.Taask).ToList();
+
+                ProjectTask.Add(new ProjectTaskViewModel
+                {
+                   Project = project,
+                    UserTasks = assignedTask
+
+                });
+            }
+            return View(ProjectTask);
+        }
+
+
+
+        public async Task<IActionResult> EditTask(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var Task = await _context.Taasks.FindAsync(id);
+
+            if (Task == null)
+            {
+                return NotFound();
+            }
+
+            EditTaskViewModel vm = new EditTaskViewModel
+            {
+                Id = Task.Id,
+                RequiredHours = Task.RequiredHours,
+
+            };
+         
+            return View(vm);
+        }
+
+        // POST: Person/Edit/5
+        [HttpPost]
+        
+        public async Task<IActionResult> EditTask(int id, [Bind("Id, RequiredHours")] EditTaskViewModel vm)
+        {
+            if (id != vm.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                Taask task = await _context.Taasks.FindAsync(id);
+                if (task == null)
+                {
+                    return NotFound();
+                }
+                task.RequiredHours = vm.RequiredHours;
+                _context.Update(task);
+                _context.SaveChanges();
+
+               
+                return RedirectToAction(nameof(ProjectsAssigned));
+            }
+            return View(vm);
+        }
+        private bool TaskExists(int id)
+        {
+            return _context.Taasks.Any(e => e.Id == id);
+        }
+
+        public IActionResult CompletedTask(int id, bool isCompleted)
+        {
+            Taask? task = _context.Taasks.FirstOrDefault(i => i.Id == id);
+
+            if (task != null)
+            {
+                task.CompletedTask = isCompleted;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction($"ProjectsAssigned");
         }
     }
 }

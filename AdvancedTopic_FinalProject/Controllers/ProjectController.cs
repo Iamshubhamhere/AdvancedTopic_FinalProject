@@ -15,7 +15,7 @@ using Project = AdvancedTopicsAuthDemo.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Project Manager")]
     public class ProjectController : Controller
     {
 
@@ -34,14 +34,14 @@ namespace AdvancedTopic_FinalProject.Controllers
             _signInManager = signInManager;
         }
 
-
+        [Authorize(Roles = "Project Manager")]
 
         public IActionResult Index(string? sortBy, int? sortId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
            
-            var projects = _context.Projects.Include(project => project.Tasksids).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
+            var projects = _context.Projects.Include(project => project.Tasks).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
@@ -104,8 +104,8 @@ namespace AdvancedTopic_FinalProject.Controllers
                     if (projectToSort != null)
                     {
                        
-                        projectToSort.Tasksids = new HashSet<Taask>(
-                            projectToSort.Tasksids.OrderBy(task => task.RequiredHours)
+                        projectToSort.Tasks = new HashSet<Taask>(
+                            projectToSort.Tasks.OrderBy(task => task.RequiredHours)
                         );
                     }
                 }
@@ -120,8 +120,8 @@ namespace AdvancedTopic_FinalProject.Controllers
                     if (projectToSort != null)
                     {
                         
-                        projectToSort.Tasksids = new HashSet<Taask>(
-                            projectToSort.Tasksids.OrderBy(task => task.Priority)
+                        projectToSort.Tasks = new HashSet<Taask>(
+                            projectToSort.Tasks.OrderBy(task => task.Priority)
                         );
                     }
                 }
