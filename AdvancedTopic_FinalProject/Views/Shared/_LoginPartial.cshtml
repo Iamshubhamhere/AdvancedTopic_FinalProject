@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using AdvancedTopic_FinalProject.Areas.Identity.Data
+@using AdvancedTopicsAuthDemo.Areas.Identity.Data
 
-@inject SignInManager<MainUser> SignInManager
-@inject UserManager<MainUser> UserManager
+@inject SignInManager<DemoUser> SignInManager
+@inject UserManager<DemoUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

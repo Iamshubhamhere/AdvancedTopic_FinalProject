@@ -154,6 +154,100 @@ namespace AdvancedTopic_FinalProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DemoUserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_DemoUserID",
+                        column: x => x.DemoUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DemoUserProjects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DemoUserProjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DemoUserProjects_AspNetUsers_DemoUserId",
+                        column: x => x.DemoUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DemoUserProjects_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Taasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    RequiredHours = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Taasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Taasks_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DemoUserTasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DemoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TaaskId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DemoUserTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DemoUserTasks_AspNetUsers_DemoUserId",
+                        column: x => x.DemoUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DemoUserTasks_Taasks_TaaskId",
+                        column: x => x.TaaskId,
+                        principalTable: "Taasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +286,36 @@ namespace AdvancedTopic_FinalProject.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DemoUserProjects_DemoUserId",
+                table: "DemoUserProjects",
+                column: "DemoUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DemoUserProjects_ProjectId",
+                table: "DemoUserProjects",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DemoUserTasks_DemoUserId",
+                table: "DemoUserTasks",
+                column: "DemoUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DemoUserTasks_TaaskId",
+                table: "DemoUserTasks",
+                column: "TaaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_DemoUserID",
+                table: "Projects",
+                column: "DemoUserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Taasks_ProjectId",
+                table: "Taasks",
+                column: "ProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,7 +336,19 @@ namespace AdvancedTopic_FinalProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DemoUserProjects");
+
+            migrationBuilder.DropTable(
+                name: "DemoUserTasks");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Taasks");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

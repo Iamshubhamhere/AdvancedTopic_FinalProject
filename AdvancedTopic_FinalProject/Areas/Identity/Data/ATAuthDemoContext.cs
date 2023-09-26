@@ -1,13 +1,15 @@
-﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopicsAuthDemo.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvancedTopic_FinalProject.Data;
 
-public class TaskManagementContext : IdentityDbContext<MainUser>
+namespace AdvancedTopicsAuthDemo.Data;
+
+public class ATAuthDemoContext : IdentityDbContext<DemoUser>
 {
-    public TaskManagementContext(DbContextOptions<TaskManagementContext> options)
+    public ATAuthDemoContext(DbContextOptions<ATAuthDemoContext> options)
         : base(options)
     {
     }
@@ -19,4 +21,8 @@ public class TaskManagementContext : IdentityDbContext<MainUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+    public DbSet<Project> Projects { get; set; } = default!;
+    public DbSet<Taask> Taasks { get; set; } = default!;
+    public DbSet<DemoUserProject> DemoUserProjects { get; set; } = default!;
+    public DbSet<DemoUserTask> DemoUserTasks { get; set; } = default!;
 }

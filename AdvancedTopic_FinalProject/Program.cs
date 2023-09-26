@@ -1,26 +1,38 @@
 using Microsoft.AspNetCore.Identity;
-using AdvancedTopic_FinalProject.Areas.Identity.Data;
-
 using Microsoft.EntityFrameworkCore;
-using AdvancedTopic_FinalProject.Data;
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("TaskManagementContextConnection") ?? throw new InvalidOperationException("Connection string 'TaskManagementContextConnection' not found.");
+using AdvancedTopicsAuthDemo.Data;
+using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.SeedData;
 
-builder.Services.AddDbContext<TaskManagementContext>(options =>
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ATAuthDemoContextConnection") ?? throw new InvalidOperationException("Connection string 'ATAuthDemoContextConnection' not found.");
+
+builder.Services.AddDbContext<ATAuthDemoContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<DemoUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+    })
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ATAuthDemoContext>();
 
 builder.Services.AddControllersWithViews(options =>
 {
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
 
-builder.Services.AddDefaultIdentity<MainUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<TaskManagementContext>();
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 var app = builder.Build();
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider serviceProvider = scope.ServiceProvider;
+
+    await SeedData.Initialize(serviceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -40,7 +52,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Developer}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
