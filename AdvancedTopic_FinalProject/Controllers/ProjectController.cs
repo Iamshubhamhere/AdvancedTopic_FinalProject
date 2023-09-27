@@ -13,8 +13,6 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using X.PagedList;
-using X.PagedList;
-using X.PagedList.Mvc.Core;
 using Project = AdvancedTopicsAuthDemo.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
@@ -49,7 +47,9 @@ namespace AdvancedTopic_FinalProject.Controllers
                 .Include(project => project.Tasks)
                 .Where(p=> p.DemoUserID == userId)
                 .OrderBy(project => project.Title)
-                .ToPagedList(page ?? 1, 10);  ;
+                .ToPagedList(page ?? 1, 10);  
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortId = sortId;
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
