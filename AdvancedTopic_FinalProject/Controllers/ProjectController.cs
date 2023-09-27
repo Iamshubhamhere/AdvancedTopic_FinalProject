@@ -41,7 +41,7 @@ namespace AdvancedTopic_FinalProject.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
            
-            var projects = _context.Projects.Include(project => project.Tasks).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
+            var projects = _context.Projects.Include(project => project.Tasks).Where(p=> p.DemoUserID == userId).OrderBy(project => project.Title).ToList();
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
@@ -142,9 +142,7 @@ namespace AdvancedTopic_FinalProject.Controllers
 
         public IActionResult Create()
         {
-
-
-            var RoleD = _roleManager.Roles.FirstOrDefault(r => r.Name == "Developer");
+            var RoleD = _context.Roles.FirstOrDefault(r => r.Name == "Developer");
             var developers = _context.UserRoles
                 .Where(userRole => userRole.RoleId == RoleD.Id)
                 .ToList();
@@ -157,26 +155,49 @@ namespace AdvancedTopic_FinalProject.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string title, List<string> AreChecked)
         {
+            // Validate the title and other properties as needed
+            if (string.IsNullOrEmpty(title) || title.Length < 5 || title.Length > 200)
+            {
+                ModelState.AddModelError("title", "Project title must be between 5 and 200 characters.");
+            }
 
+            if (!ModelState.IsValid)
+            {
+                // If validation fails, reload the view with validation errors
+                var RoleD = _context.Roles.FirstOrDefault(r => r.Name == "Developer");
+                var developers = _context.UserRoles
+                    .Where(userRole => userRole.RoleId == RoleD.Id)
+                    .ToList();
+                var userIds = developers.Select(userRole => userRole.UserId).ToList();
+                var users = _context.Users.Where(user => userIds.Contains(user.Id)).ToList();
+
+                ViewBag.Users = users;
+
+                return View();
+            }
+
+            // Create a new project
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var project = new Project
             {
-                title = title,
-                DemoUserID = userId 
+                Title = title,
+                DemoUserID = userId
             };
 
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
 
+            // Associate selected users with the project
             foreach (var selectedUserId in AreChecked)
             {
                 var demoUserProject = new DemoUserProject
                 {
-                    UserId = selectedUserId, 
-                    ProjectId = project.Id 
+                    UserId = selectedUserId,
+                    ProjectId = project.Id
                 };
 
                 _context.DemoUserProjects.Add(demoUserProject);
@@ -184,12 +205,9 @@ namespace AdvancedTopic_FinalProject.Controllers
 
             await _context.SaveChangesAsync();
 
-
-
             return RedirectToAction("Index");
         }
 
-      
         public async Task<IActionResult> Delete(int id)
         {
             var project = await _context.Projects.FirstOrDefaultAsync(p=>p.Id== id);

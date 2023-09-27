@@ -1,35 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Project Page";
-}
+﻿@model AdvancedTopicsAuthDemo.Models.Project
+
+<h2>Create Project</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Title">Project Title:</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @foreach (var user in ViewBag.Users)
+        {
+            <input name="AreChecked" type="checkbox" value="@user.Id" /> @user.UserName
+            <br />
+        }
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create Project" class="btn btn-primary" />
+    </div>
+</form>
 
 <div>
-    <h3>Create project</h3>
+    <a asp-controller="Project" asp-action="Index">Back to Project List</a>
 </div>
-
-<container>
-    <row>
-        <form method="post">
-            <div>
-                <label class="col-md-1" for="title">
-                    Title:
-                </label>
-                <input class="col-md-2" type="text" id="title" name="title" />
-            </div>
-            <div>
-                @foreach (var user in ViewBag.Users)
-                {
-                    <input name="AreChecked" type="checkbox" value="@user.Id" /> @user.UserName
-
-                    <br />
-                }
-               
-            </div>
-                
-            
-            <div>
-                <input type="submit" value="submit" />
-            </div>
-        </form>
-    </row>
-</container>
-

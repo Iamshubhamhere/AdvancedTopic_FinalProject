@@ -22,7 +22,7 @@
             {
                 <tr class="projectHead">
                     <td>@project.Id</td>
-                    <td>@project.title</td>
+                    <td>@project.Title</td>
                     <td>
                         <a asp-controller="Task" asp-action="Create" asp-route-projectId="@project.Id">Create a new task</a> |
                         <a asp-action="Details" asp-route-id="@project.Id">Details</a> |
@@ -71,7 +71,7 @@
                                 @foreach (var task in project.Tasks)
                                 {
                                 <tr class="DForT">
-                                    <td class="DForT">@task.title</td>
+                                    <td class="DForT">@task.Title</td>
                                     <td class="DForT">@task.RequiredHours</td>
                                     <td class="DForT">@task.Priority</td>
                                     <th class="DForT"><a asp-action="AddToTask" asp-route-id="@project.Id" asp-route-Taskid="@task.Id">Add developer to task</a> |

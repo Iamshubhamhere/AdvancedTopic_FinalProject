@@ -4,13 +4,11 @@ namespace AdvancedTopicsAuthDemo.Models
 {
     public class Taask
     {
-        
-
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Task title is required.")]
         [StringLength(200, MinimumLength = 5, ErrorMessage = "Task title must be between 5 and 200 characters.")]
-        public string? title { get; set; }
+        public string Title { get; set; } // Changed property name to match data annotation
 
         [Required(ErrorMessage = "Required hours are required.")]
         [Range(1, 999, ErrorMessage = "Required hours must be between 1 and 999 (inclusive).")]

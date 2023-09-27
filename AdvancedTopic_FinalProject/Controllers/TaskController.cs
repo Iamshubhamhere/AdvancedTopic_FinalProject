@@ -38,23 +38,33 @@ namespace AdvancedTopic_FinalProject.Controllers
 
         public IActionResult Create(int projectId)
         {
+            // Pass the project ID to the view
             ViewData["ProjectId"] = projectId;
             return View();
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("title,RequiredHours,Priority,ProjectId")] Taask tassk )
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(int projectId, [Bind("Title,RequiredHours,Priority")] Taask task)
         {
-            
-            _context.Taasks.Add(tassk);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index","Project");
+            if (ModelState.IsValid)
+            {
+                // Set the ProjectId of the task to associate it with the project
+                task.ProjectId = projectId;
+
+                _context.Taasks.Add(task);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Project");
+            }
+
+            // If validation fails, pass the project ID back to the view
+            ViewData["ProjectId"] = projectId;
+            return View(task);
         }
 
         public async Task<IActionResult> Delete(int id, int Taskid)
         {
-           
+
             var taask = await _context.Taasks.FirstOrDefaultAsync(t => t.Id == Taskid && t.ProjectId == id);
             _context.Taasks.Remove(taask);
             await _context.SaveChangesAsync();
