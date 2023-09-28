@@ -96,3 +96,6 @@
     </table>
 
 
+<div class="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.SortBy, sortId= ViewBag.SortId }))
+</div>
