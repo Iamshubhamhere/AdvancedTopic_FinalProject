@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AdvancedTopicsAuthDemo.Models.Project;
+@{
     ViewData["Title"] = "Project Page";
 }
 
@@ -9,11 +10,10 @@
 <container>
     <row>
         <form method="post">
-            <div>
-                <label class="col-md-1" for="title">
-                    Title:
-                </label>
-                <input class="col-md-2" type="text" id="title" name="title" />
+            <div class="form-group">
+                <label for="title">Project Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="@Model.title" required />
+                <span asp-validation-for="title" class="text-danger"></span>
             </div>
             <div>
                 @foreach (var user in ViewBag.Users)
@@ -32,4 +32,3 @@
         </form>
     </row>
 </container>
-

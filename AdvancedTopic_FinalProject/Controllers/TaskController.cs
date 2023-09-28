@@ -29,8 +29,6 @@ namespace AdvancedTopic_FinalProject.Controllers
         }
 
 
-
-
         public IActionResult Index()
         {
             return View();
@@ -46,10 +44,21 @@ namespace AdvancedTopic_FinalProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("title,RequiredHours,Priority,ProjectId")] Taask tassk )
         {
-            
+            if (tassk == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                // If the model state is not valid, return the user to the same view to correct the errors
+                ViewData["ProjectId"] = tassk.ProjectId; // Ensure ProjectId is still available in the view
+                return View(tassk);
+            }
+
             _context.Taasks.Add(tassk);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index","Project");
+
+            return RedirectToAction("Index", "Project");
         }
 
         public async Task<IActionResult> Delete(int id, int Taskid)

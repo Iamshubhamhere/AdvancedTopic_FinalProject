@@ -84,12 +84,6 @@ namespace AdvancedTopic_FinalProject.Controllers
             ViewBag.taskUserNames = taskUserNames;
 
 
-
-
-
-
-
-
             if (string.IsNullOrEmpty(sortBy))
             {
                
@@ -127,17 +121,8 @@ namespace AdvancedTopic_FinalProject.Controllers
                 }
             }
 
-
-            
-
-
-
-
-
             return View(projects);
         }
-
-
 
 
         public IActionResult Create()
@@ -153,43 +138,51 @@ namespace AdvancedTopic_FinalProject.Controllers
 
             ViewBag.Users = users;
 
-            return View();
+            return View(new Project());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string title, List<string> AreChecked)
-        {
 
+        public async Task<IActionResult> Create(Project project, List<string> AreChecked)
+        {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var project = new Project
+            project.DemoUserID = userId;
+
+            if (!ModelState.IsValid)
             {
-                title = title,
-                DemoUserID = userId 
-            };
+                var RoleD = _roleManager.Roles.FirstOrDefault(r => r.Name == "Developer");
+                var developers = _context.UserRoles
+                    .Where(userRole => userRole.RoleId == RoleD.Id)
+                    .ToList();
+                var userIds = developers.Select(userRole => userRole.UserId).ToList();
+                var users = _context.Users.Where(user => userIds.Contains(user.Id)).ToList();
 
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
+                ViewBag.Users = users;
 
-            foreach (var selectedUserId in AreChecked)
-            {
-                var demoUserProject = new DemoUserProject
-                {
-                    UserId = selectedUserId, 
-                    ProjectId = project.Id 
-                };
-
-                _context.DemoUserProjects.Add(demoUserProject);
+                return View(project);  
             }
+            else
+            {
+                _context.Projects.Add(project);
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
+                foreach (var selectedUserId in AreChecked)
+                {
+                    var demoUserProject = new DemoUserProject
+                    {
+                        UserId = selectedUserId,
+                        ProjectId = project.Id
+                    };
 
+                    _context.DemoUserProjects.Add(demoUserProject);
+                }
 
+                await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
         }
-
-      
         public async Task<IActionResult> Delete(int id)
         {
             var project = await _context.Projects.FirstOrDefaultAsync(p=>p.Id== id);

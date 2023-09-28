@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdvancedTopic_FinalProject.Migrations
 {
     [DbContext(typeof(ATAuthDemoContext))]
-    [Migration("20230926072310_AddedModelProperties")]
-    partial class AddedModelProperties
+    [Migration("20230928021620_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

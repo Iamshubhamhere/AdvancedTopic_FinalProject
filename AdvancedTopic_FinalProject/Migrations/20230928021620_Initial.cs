@@ -209,6 +209,7 @@ namespace AdvancedTopic_FinalProject.Migrations
                     title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     RequiredHours = table.Column<int>(type: "int", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
+                    CompletedTask = table.Column<bool>(type: "bit", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
