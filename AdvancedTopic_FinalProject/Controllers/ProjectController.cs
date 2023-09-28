@@ -160,6 +160,19 @@ namespace AdvancedTopic_FinalProject.Controllers
         public async Task<IActionResult> Create(Project project, List<string> AreChecked)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //Determine if the userid exists
+            var userExists = _userManager.Users.Any(u => u.Id == userId);
+
+            if (!userExists)
+            {
+
+
+                //If the userId does not exist, log out of the current account
+                await HttpContext.SignOutAsync();
+
+                // back to HomeController
+                return RedirectToAction("Index", "Home");
+            }
 
             project.DemoUserID = userId;
 
