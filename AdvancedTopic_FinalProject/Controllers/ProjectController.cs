@@ -48,10 +48,12 @@ namespace AdvancedTopic_FinalProject.Controllers
             var pageSize = 10; // 每页显示的项目数量，您可以根据需求进行调整
 
             var projects = _context.Projects
-                .Include(project => project.Tasksids)
-                .Where(p => p.DemoUserID == userId)
-                .OrderBy(project => project.title)
-                .ToPagedList(pageNumber, pageSize);
+               .Include(project => project.Tasksids)
+               .Where(p => p.DemoUserID == userId)
+               .OrderBy(project => project.title)
+               .ToPagedList(page ?? 1, 10);
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortId = sortId;
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
