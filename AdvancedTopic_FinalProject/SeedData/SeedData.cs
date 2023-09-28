@@ -15,7 +15,7 @@ namespace AdvancedTopic_FinalProject.SeedData
             UserManager<TaskUser> UserManager = serviceProvider.GetRequiredService<UserManager<TaskUser>>();
 
             // Ensure the database is properly set up
-           /* context.Database.EnsureDeleted();*/
+            context.Database.EnsureDeleted();
             context.Database.Migrate();
 
             // Seeding Roles
