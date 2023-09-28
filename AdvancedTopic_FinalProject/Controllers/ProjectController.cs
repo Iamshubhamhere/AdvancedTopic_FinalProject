@@ -1,6 +1,7 @@
 ﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
 using AdvancedTopicsAuthDemo.Data;
 using AdvancedTopicsAuthDemo.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -45,11 +46,11 @@ namespace AdvancedTopic_FinalProject.Controllers
 
 
             //var projects = _context.Projects.Include(project => project.Tasksids).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
-            var pageNumber = page ?? 1; // 当前页码，默认为1
-            var pageSize = 10; // 每页显示的项目数量，您可以根据需求进行调整
+            var pageNumber = page ?? 1; 
+            var pageSize = 10; 
 
             var projects = _context.Projects
-               .Include(project => project.Tasksids)
+               .Include(project => project.Tasks)
                .Where(p => p.DemoUserID == userId)
                .OrderBy(project => project.title)
                .ToPagedList(page ?? 1, 10);
@@ -170,10 +171,26 @@ namespace AdvancedTopic_FinalProject.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string title, List<string> AreChecked)
         {
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            //Determine if the userid exists
+            var userExists = _userManager.Users.Any(u => u.Id == userId);
+
+            if (!userExists)
+            {
+
+
+                //If the userId does not exist, log out of the current account
+                await HttpContext.SignOutAsync();
+
+                // back to HomeController
+                return RedirectToAction("Index", "Home"); 
+            }
+
 
             var project = new Project
             {

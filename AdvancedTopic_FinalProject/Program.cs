@@ -16,6 +16,8 @@ builder.Services.AddDefaultIdentity<DemoUser>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ATAuthDemoContext>();
 
+
+
 builder.Services.AddControllersWithViews(options =>
 {
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
@@ -46,13 +48,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication();
+
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Developer}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
