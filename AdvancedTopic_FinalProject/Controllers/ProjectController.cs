@@ -11,6 +11,15 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Build.Evaluation;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
+using System.Linq;
+using System.Security.Claims;
+using X.PagedList;
 using Project = AdvancedTopicsAuthDemo.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
