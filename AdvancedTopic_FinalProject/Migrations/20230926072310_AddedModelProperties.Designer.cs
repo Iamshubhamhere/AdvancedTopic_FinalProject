@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdvancedTopic_FinalProject.Migrations
 {
     [DbContext(typeof(ATAuthDemoContext))]
-    [Migration("20230925055632_fix2")]
-    partial class fix2
+    [Migration("20230926072310_AddedModelProperties")]
+    partial class AddedModelProperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,6 +174,9 @@ namespace AdvancedTopic_FinalProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("CompletedTask")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -381,7 +384,7 @@ namespace AdvancedTopic_FinalProject.Migrations
             modelBuilder.Entity("AdvancedTopicsAuthDemo.Models.Taask", b =>
                 {
                     b.HasOne("AdvancedTopicsAuthDemo.Models.Project", "Project")
-                        .WithMany("Tasksids")
+                        .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -442,7 +445,7 @@ namespace AdvancedTopic_FinalProject.Migrations
 
             modelBuilder.Entity("AdvancedTopicsAuthDemo.Models.Project", b =>
                 {
-                    b.Navigation("Tasksids");
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

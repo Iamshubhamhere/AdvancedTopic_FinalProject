@@ -20,7 +20,7 @@ namespace AdvancedTopicsAuthDemo.Models
 
 
 
-        public HashSet<Taask> Tasksids { get; set; } = new HashSet<Taask>();
+        public HashSet<Taask> Tasks { get; set; } = new HashSet<Taask>();
 
 
         //public ICollection<DemoUserProject> DemoUserProjects { get; set; } = new List<DemoUserProject>();

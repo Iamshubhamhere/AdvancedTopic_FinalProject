@@ -34,7 +34,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User</a>
                             </li>
                         }
-                        @if (User.IsInRole("Manager"))
+                        @if (User.IsInRole("Project Manager"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
@@ -44,7 +44,7 @@
                         @if (User.IsInRole("Developer"))
                         {
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Developer" asp-action="Index">My missions</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Developer" asp-action="ProjectsAssigned">My missions</a>
                         </li>
 
                         }

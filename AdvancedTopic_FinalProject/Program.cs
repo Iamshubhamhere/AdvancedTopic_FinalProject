@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AdvancedTopicsAuthDemo.Data;
 using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ATAuthDemoContextConnection") ?? throw new InvalidOperationException("Connection string 'ATAuthDemoContextConnection' not found.");
@@ -15,10 +16,23 @@ builder.Services.AddDefaultIdentity<DemoUser>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ATAuthDemoContext>();
 
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 var app = builder.Build();
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider serviceProvider = scope.ServiceProvider;
+
+    await SeedData.Initialize(serviceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -38,7 +52,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Developer}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 

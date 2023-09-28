@@ -173,6 +173,9 @@ namespace AdvancedTopic_FinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("CompletedTask")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
@@ -379,7 +382,7 @@ namespace AdvancedTopic_FinalProject.Migrations
             modelBuilder.Entity("AdvancedTopicsAuthDemo.Models.Taask", b =>
                 {
                     b.HasOne("AdvancedTopicsAuthDemo.Models.Project", "Project")
-                        .WithMany("Tasksids")
+                        .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -440,7 +443,7 @@ namespace AdvancedTopic_FinalProject.Migrations
 
             modelBuilder.Entity("AdvancedTopicsAuthDemo.Models.Project", b =>
                 {
-                    b.Navigation("Tasksids");
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

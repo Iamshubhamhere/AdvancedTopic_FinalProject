@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvancedTopic_FinalProject.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Project Manager")]
     public class TaskController : Controller
     {
 
@@ -49,6 +50,15 @@ namespace AdvancedTopic_FinalProject.Controllers
             _context.Taasks.Add(tassk);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index","Project");
+        }
+
+        public async Task<IActionResult> Delete(int id, int Taskid)
+        {
+           
+            var taask = await _context.Taasks.FirstOrDefaultAsync(t => t.Id == Taskid && t.ProjectId == id);
+            _context.Taasks.Remove(taask);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Project");
         }
 
     }

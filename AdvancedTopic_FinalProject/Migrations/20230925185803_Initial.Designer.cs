@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdvancedTopic_FinalProject.Migrations
 {
     [DbContext(typeof(ATAuthDemoContext))]
-    [Migration("20230925042238_try")]
-    partial class @try
+    [Migration("20230925185803_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -127,8 +127,9 @@ namespace AdvancedTopic_FinalProject.Migrations
                     b.Property<string>("DemoUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TaaskId")
                         .HasColumnType("int");
