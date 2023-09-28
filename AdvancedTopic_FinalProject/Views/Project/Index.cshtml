@@ -1,6 +1,5 @@
 ﻿@model List<AdvancedTopicsAuthDemo.Models.Project>
-@using X.PagedList
-@using X.PagedList.Mvc.Core
+
 @{
     ViewData["Title"] = "Project Page";
 }
@@ -97,6 +96,3 @@
     </table>
 
 
-<div class="pagination">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.SortBy, sortId= ViewBag.SortId }))
-</div>
