@@ -1,60 +1,65 @@
-﻿@model IPagedList<AdvancedTopicsAuthDemo.Models.Project>
+﻿@model IPagedList<AdvancedTopic_FinalProject.Models.Project>
 @using X.PagedList
 @using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "Project Page";
 }
-<link rel="stylesheet" href="~/css/yifan.css" />
-<div>
-    <h3>projects</h3>
-</div>
-<a href="@Url.Action("Create") ">Create a new Project</a>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Project ID</th>
-                <th>Title</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var project in Model)
-            {
-                <tr class="projectHead">
-                    <td>@project.Id</td>
-                    <td>@project.title</td>
-                    <td>
-                        <a asp-controller="Task" asp-action="Create" asp-route-projectId="@project.Id">Create a new task</a> |
-                        <a asp-action="Details" asp-route-id="@project.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
-                    </td>
-                </tr>
-                <!-- developer -->
+<link rel="stylesheet" href="~/css/yifan.css" />
+
+<div class="project-header">
+    <h3>Projects</h3>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create a new Project</a>
+</div>
+
+<table class=" task-table DForT">
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <!-- Display the headers for every project -->
+            <thead>
                 <tr>
-                    <td colspan="3" class="DForP">
-                        <table class="developer-table">
+                    <th>Project ID</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <!-- Project details -->
+            <tr class="projectHead">
+                <td>@project.Id</td>
+                <td>@project.title</td>
+                <td>
+                    <a asp-controller="Task" asp-action="Create" asp-route-projectId="@project.Id">Create a new task</a> |
+                    <a asp-action="Details" asp-route-id="@project.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
+                </td>
+            </tr>
+            <!-- developer -->
+            <tr>
+                <td colspan="3" class="DForP">
+                    <table class="developer-table">
                         <thead class="DForP">
                             <tr class="DForP">
                                 <th class="DForP">Developer Name</th>
                                 <th class="DForP"><a asp-action="AddToDeveloper" asp-route-id="@project.Id">Add developer to project</a></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var userName in ViewBag.ProjectUserNames[project.Id])
                             {
                                 <tr class="DForP">
                                     <td class="DForP">@userName</td>
                                 </tr>
                             }
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
                 <!-- task -->
                 <tr>
                 <td colspan="3" class="DForT">
+                    <h3>Tasks</h3>
                     <table class="task-table" class="DForT">
                         <thead class="DForT">
                             <tr class="DForT">
@@ -101,4 +106,3 @@
 <div class="pagination">
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortBy = ViewBag.SortBy, sortId= ViewBag.SortId }))
 </div>
-

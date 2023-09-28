@@ -1,9 +1,9 @@
-﻿using AdvancedTopicsAuthDemo.Models;
+﻿using AdvancedTopic_FinalProject.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace AdvancedTopicsAuthDemo.Areas.Identity.Data
+namespace AdvancedTopic_FinalProject.Areas.Identity.Data
 {
-    public class DemoUser: IdentityUser
+    public class TaskUser: IdentityUser
     {
         //public ICollection<DemoUserProject> DemoUserProjects { get; set; } = new List<DemoUserProject>();
 

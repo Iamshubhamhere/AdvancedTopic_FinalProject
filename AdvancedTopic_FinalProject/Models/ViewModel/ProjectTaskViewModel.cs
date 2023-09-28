@@ -1,6 +1,6 @@
-﻿using AdvancedTopicsAuthDemo.Models;
+﻿using AdvancedTopic_FinalProject.Models;
 
-namespace AdvancedTopicsAuthDemo.Models.ViewModel
+namespace AdvancedTopic_FinalProject.Models.ViewModel
 {
     public class ProjectTaskViewModel
     {

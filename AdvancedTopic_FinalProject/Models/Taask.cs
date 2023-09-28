@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AdvancedTopicsAuthDemo.Models
+namespace AdvancedTopic_FinalProject.Models
 {
     public class Taask
     {

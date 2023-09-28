@@ -1,20 +1,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using AdvancedTopicsAuthDemo.Data;
-using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Data;
+using AdvancedTopic_FinalProject.Areas.Identity.Data;
 using AdvancedTopic_FinalProject.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ATAuthDemoContextConnection") ?? throw new InvalidOperationException("Connection string 'ATAuthDemoContextConnection' not found.");
 
-builder.Services.AddDbContext<ATAuthDemoContext>(options =>
+builder.Services.AddDbContext<TaskManagementContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<DemoUser>(options => {
+builder.Services.AddDefaultIdentity<TaskUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ATAuthDemoContext>();
+    .AddEntityFrameworkStores<TaskManagementContext>();
 
 
 

@@ -1,4 +1,4 @@
-﻿@model AdvancedTopicsAuthDemo.Models.Taask
+﻿@model AdvancedTopic_FinalProject.Models.Taask
 
 <h2>Create Task</h2>
 
@@ -18,7 +18,7 @@
     <div class="form-group">
         <label asp-for="Priority" class="control-label">Priority:</label>
         <select asp-for="Priority" class="form-control">
-            @foreach (var priorityValue in Enum.GetValues(typeof(AdvancedTopicsAuthDemo.Models.Priority)))
+            @foreach (var priorityValue in Enum.GetValues(typeof(AdvancedTopic_FinalProject.Models.Priority)))
             {
                 <option value="@priorityValue">@priorityValue</option>
             }

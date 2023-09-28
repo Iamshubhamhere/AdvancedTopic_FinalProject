@@ -1,8 +1,8 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace AdvancedTopicsAuthDemo.Models
+namespace AdvancedTopic_FinalProject.Models
 {
     public class DemoUserTask
     {
@@ -11,7 +11,7 @@ namespace AdvancedTopicsAuthDemo.Models
 
         public string RoleId { get; set; }
 
-        public DemoUser DemoUser { get; set; }
+        public TaskUser DemoUser { get; set; }
 
         public int TaaskId { get; set; }
 

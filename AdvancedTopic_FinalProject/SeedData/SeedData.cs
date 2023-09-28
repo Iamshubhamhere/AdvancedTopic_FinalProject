@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
-using AdvancedTopicsAuthDemo.Data;
-using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Data;
+using AdvancedTopic_FinalProject.Areas.Identity.Data;
 
 namespace AdvancedTopic_FinalProject.SeedData
 {
@@ -10,9 +10,9 @@ namespace AdvancedTopic_FinalProject.SeedData
     {
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
-            ATAuthDemoContext context = new ATAuthDemoContext(serviceProvider.GetRequiredService<DbContextOptions<ATAuthDemoContext>>());
+            TaskManagementContext context = new TaskManagementContext(serviceProvider.GetRequiredService<DbContextOptions<TaskManagementContext>>());
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            UserManager<DemoUser> UserManager = serviceProvider.GetRequiredService<UserManager<DemoUser>>();
+            UserManager<TaskUser> UserManager = serviceProvider.GetRequiredService<UserManager<TaskUser>>();
 
             // Ensure the database is properly set up
            /* context.Database.EnsureDeleted();*/
@@ -35,7 +35,7 @@ namespace AdvancedTopic_FinalProject.SeedData
 
             if (!context.Users.Any())
             {
-                DemoUser Administrator = new DemoUser()
+                TaskUser Administrator = new TaskUser()
                 {
                     UserName = "admin@admin.com",
                     NormalizedUserName = "ADMIN",
@@ -45,7 +45,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser ProjectManagerOne = new DemoUser()
+                TaskUser ProjectManagerOne = new TaskUser()
                 {
                     UserName = "project@managerone.com",
                     NormalizedUserName = "MANAGERONE",
@@ -55,7 +55,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser ProjectManagerTwo = new DemoUser()
+                TaskUser ProjectManagerTwo = new TaskUser()
                 {
                     UserName = "project@managertwo.com",
                     NormalizedUserName = "MANAGERTWO",
@@ -66,7 +66,7 @@ namespace AdvancedTopic_FinalProject.SeedData
 
                 };
 
-                DemoUser ProjectManagerThree = new DemoUser()
+                TaskUser ProjectManagerThree = new TaskUser()
                 {
                     UserName = "project@managerthree.com",
                     NormalizedUserName = "MANAGERTHREE",
@@ -76,7 +76,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser DevOne = new DemoUser()
+                TaskUser DevOne = new TaskUser()
                 {
                     UserName = "dev@one.com",
                     NormalizedUserName = "DEVELOPERONE",
@@ -86,7 +86,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser DevTwo = new DemoUser()
+                TaskUser DevTwo = new TaskUser()
                 {
                     UserName = "dev@two.com",
                     NormalizedUserName = "DEVELOPERTWO",
@@ -96,7 +96,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser DevThree = new DemoUser()
+                TaskUser DevThree = new TaskUser()
                 {
                     UserName = "dev@three.com",
                     NormalizedUserName = "DEVELOPERTHREE",
@@ -106,7 +106,7 @@ namespace AdvancedTopic_FinalProject.SeedData
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };
 
-                DemoUser DevFour = new DemoUser()
+                TaskUser DevFour = new TaskUser()
                 {
                     UserName = "dev@four.com",
                     NormalizedUserName = "DEVELOPERFOUR",
@@ -136,14 +136,14 @@ namespace AdvancedTopic_FinalProject.SeedData
 
                 await context.SaveChangesAsync();
 
-                DemoUser adminUser = await UserManager.FindByNameAsync("Admin");
-                DemoUser pmOneUser = await UserManager.FindByNameAsync("ManagerOne");
-                DemoUser pmTwoUser = await UserManager.FindByNameAsync("ManagerTwo");
-                DemoUser pmThreeUser = await UserManager.FindByNameAsync("ManagerThree");
-                DemoUser devOne = await UserManager.FindByNameAsync("DeveloperOne");
-                DemoUser devTwo = await UserManager.FindByNameAsync("DeveloperTwo");
-                DemoUser devThree = await UserManager.FindByNameAsync("DeveloperThree");
-                DemoUser devFour = await UserManager.FindByNameAsync("DeveloperFour");
+                TaskUser adminUser = await UserManager.FindByNameAsync("Admin");
+                TaskUser pmOneUser = await UserManager.FindByNameAsync("ManagerOne");
+                TaskUser pmTwoUser = await UserManager.FindByNameAsync("ManagerTwo");
+                TaskUser pmThreeUser = await UserManager.FindByNameAsync("ManagerThree");
+                TaskUser devOne = await UserManager.FindByNameAsync("DeveloperOne");
+                TaskUser devTwo = await UserManager.FindByNameAsync("DeveloperTwo");
+                TaskUser devThree = await UserManager.FindByNameAsync("DeveloperThree");
+                TaskUser devFour = await UserManager.FindByNameAsync("DeveloperFour");
 
 
                 await UserManager.AddToRoleAsync(adminUser, "Administrator");
@@ -163,9 +163,9 @@ namespace AdvancedTopic_FinalProject.SeedData
         }
 
         // Generating Hash Password
-        public static string HashPasswordGenerator(DemoUser user, string password)
+        public static string HashPasswordGenerator(TaskUser user, string password)
         {
-            PasswordHasher<DemoUser> passwordHasher = new PasswordHasher<DemoUser>();
+            PasswordHasher<TaskUser> passwordHasher = new PasswordHasher<TaskUser>();
             string hashedPassword = passwordHasher.HashPassword(user, password);
 
             return user.PasswordHash = hashedPassword;

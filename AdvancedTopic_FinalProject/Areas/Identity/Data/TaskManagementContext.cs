@@ -1,15 +1,15 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
-using AdvancedTopicsAuthDemo.Models;
+﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace AdvancedTopicsAuthDemo.Data;
+namespace AdvancedTopic_FinalProject.Data;
 
-public class ATAuthDemoContext : IdentityDbContext<DemoUser>
+public class TaskManagementContext : IdentityDbContext<TaskUser>
 {
-    public ATAuthDemoContext(DbContextOptions<ATAuthDemoContext> options)
+    public TaskManagementContext(DbContextOptions<TaskManagementContext> options)
         : base(options)
     {
     }

@@ -1,23 +1,23 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
-using AdvancedTopicsAuthDemo.Data;
-using AdvancedTopicsAuthDemo.Models;
+﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Data;
+using AdvancedTopic_FinalProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace AdvancedTopicsAuthDemo.Controllers
+namespace AdvancedTopic_FinalProject.Controllers
 {
     
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ATAuthDemoContext _context;
-        private readonly UserManager<DemoUser> _userManager;
+        private readonly TaskManagementContext _context;
+        private readonly UserManager<TaskUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<DemoUser> _signInManager;
+        private readonly SignInManager<TaskUser> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, ATAuthDemoContext context, RoleManager<IdentityRole> roleManager, UserManager<DemoUser> userManager, SignInManager<DemoUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, TaskManagementContext context, RoleManager<IdentityRole> roleManager, UserManager<TaskUser> userManager, SignInManager<TaskUser> signInManager)
         {
             _logger = logger;
             _context = context;
@@ -46,7 +46,7 @@ namespace AdvancedTopicsAuthDemo.Controllers
         {
             string roleName = "Administrator";
 
-            DemoUser loggedIn = _context.Users.FirstOrDefault(u => User.Identity.Name == u.UserName);
+            TaskUser loggedIn = _context.Users.FirstOrDefault(u => User.Identity.Name == u.UserName);
 
             if(loggedIn == null)
             {

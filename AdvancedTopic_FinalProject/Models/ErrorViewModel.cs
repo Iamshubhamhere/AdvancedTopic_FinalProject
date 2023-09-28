@@ -1,4 +1,4 @@
-namespace AdvancedTopicsAuthDemo.Models
+namespace AdvancedTopic_FinalProject.Models
 {
     public class ErrorViewModel
     {

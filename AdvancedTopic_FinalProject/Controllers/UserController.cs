@@ -1,5 +1,5 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
-using AdvancedTopicsAuthDemo.Data;
+﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +12,12 @@ public class UserController : Controller
 {
     
     private readonly ILogger<UserController> _logger;
-    private readonly ATAuthDemoContext _context;
-    private readonly UserManager<DemoUser> _userManager;
+    private readonly TaskManagementContext _context;
+    private readonly UserManager<TaskUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly SignInManager<DemoUser> _signInManager;
+    private readonly SignInManager<TaskUser> _signInManager;
 
-    public UserController(ILogger<UserController> logger, ATAuthDemoContext context, RoleManager<IdentityRole> roleManager, UserManager<DemoUser> userManager, SignInManager<DemoUser> signInManager)
+    public UserController(ILogger<UserController> logger, TaskManagementContext context, RoleManager<IdentityRole> roleManager, UserManager<TaskUser> userManager, SignInManager<TaskUser> signInManager)
     {
         _logger = logger;
         _context = context;

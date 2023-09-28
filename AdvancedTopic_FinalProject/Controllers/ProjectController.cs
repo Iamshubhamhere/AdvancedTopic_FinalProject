@@ -1,6 +1,6 @@
-﻿using AdvancedTopicsAuthDemo.Areas.Identity.Data;
-using AdvancedTopicsAuthDemo.Data;
-using AdvancedTopicsAuthDemo.Models;
+﻿using AdvancedTopic_FinalProject.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Data;
+using AdvancedTopic_FinalProject.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using X.PagedList;
 
-using Project = AdvancedTopicsAuthDemo.Models.Project;
+using Project = AdvancedTopic_FinalProject.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
 {
@@ -23,12 +23,12 @@ namespace AdvancedTopic_FinalProject.Controllers
     {
 
         private readonly ILogger<ProjectController> _logger;
-        private readonly ATAuthDemoContext _context;
-        private readonly UserManager<DemoUser> _userManager;
+        private readonly TaskManagementContext _context;
+        private readonly UserManager<TaskUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<DemoUser> _signInManager;
+        private readonly SignInManager<TaskUser> _signInManager;
 
-        public ProjectController(ILogger<ProjectController> logger, ATAuthDemoContext context, RoleManager<IdentityRole> roleManager, UserManager<DemoUser> userManager, SignInManager<DemoUser> signInManager)
+        public ProjectController(ILogger<ProjectController> logger, TaskManagementContext context, RoleManager<IdentityRole> roleManager, UserManager<TaskUser> userManager, SignInManager<TaskUser> signInManager)
         {
             _logger = logger;
             _context = context;
@@ -244,7 +244,7 @@ namespace AdvancedTopic_FinalProject.Controllers
             var usersNotInProject = developers.Except(userIds).ToList();
 
 
-            List<DemoUser> usersList = new List<DemoUser>();
+            List<TaskUser> usersList = new List<TaskUser>();
 
             foreach (var userId in usersNotInProject)
             {

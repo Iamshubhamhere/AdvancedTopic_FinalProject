@@ -5,20 +5,20 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace AdvancedTopicsAuthDemo.Areas.Identity.Pages.Account
+namespace AdvancedTopic_FinalProject.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<DemoUser> _signInManager;
+        private readonly SignInManager<TaskUser> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<DemoUser> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<TaskUser> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

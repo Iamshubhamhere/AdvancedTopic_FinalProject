@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using AdvancedTopicsAuthDemo.Areas.Identity.Data;
+using AdvancedTopic_FinalProject.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,21 +20,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace AdvancedTopicsAuthDemo.Areas.Identity.Pages.Account
+namespace AdvancedTopic_FinalProject.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<DemoUser> _signInManager;
-        private readonly UserManager<DemoUser> _userManager;
-        private readonly IUserStore<DemoUser> _userStore;
-        private readonly IUserEmailStore<DemoUser> _emailStore;
+        private readonly SignInManager<TaskUser> _signInManager;
+        private readonly UserManager<TaskUser> _userManager;
+        private readonly IUserStore<TaskUser> _userStore;
+        private readonly IUserEmailStore<TaskUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<DemoUser> userManager,
-            IUserStore<DemoUser> userStore,
-            SignInManager<DemoUser> signInManager,
+            UserManager<TaskUser> userManager,
+            IUserStore<TaskUser> userStore,
+            SignInManager<TaskUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -155,27 +155,27 @@ namespace AdvancedTopicsAuthDemo.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private DemoUser CreateUser()
+        private TaskUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<DemoUser>();
+                return Activator.CreateInstance<TaskUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(DemoUser)}'. " +
-                    $"Ensure that '{nameof(DemoUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(TaskUser)}'. " +
+                    $"Ensure that '{nameof(TaskUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<DemoUser> GetEmailStore()
+        private IUserEmailStore<TaskUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<DemoUser>)_userStore;
+            return (IUserEmailStore<TaskUser>)_userStore;
         }
     }
 }
