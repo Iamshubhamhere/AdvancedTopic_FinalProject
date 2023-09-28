@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using X.PagedList;
+
 using Project = AdvancedTopicsAuthDemo.Models.Project;
 
 namespace AdvancedTopic_FinalProject.Controllers
@@ -37,12 +38,20 @@ namespace AdvancedTopic_FinalProject.Controllers
 
 
 
-        public IActionResult Index(string? sortBy, int? sortId)
+        public IActionResult Index(string? sortBy, int? sortId, int? page)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-           
-            var projects = _context.Projects.Include(project => project.Tasksids).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
+
+            //var projects = _context.Projects.Include(project => project.Tasksids).Where(p=> p.DemoUserID == userId).OrderBy(project => project.title).ToList();
+            var pageNumber = page ?? 1; // 当前页码，默认为1
+            var pageSize = 10; // 每页显示的项目数量，您可以根据需求进行调整
+
+            var projects = _context.Projects
+                .Include(project => project.Tasksids)
+                .Where(p => p.DemoUserID == userId)
+                .OrderBy(project => project.title)
+                .ToPagedList(pageNumber, pageSize);
 
             var projectUserNames = new Dictionary<int, List<string>>();
 
