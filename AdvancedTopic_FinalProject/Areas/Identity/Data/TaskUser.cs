@@ -10,4 +10,4 @@ namespace AdvancedTopic_FinalProject.Areas.Identity.Data
 
         //public ICollection<DemoUserTask> DemoUserTasks { get; set; } = new List<DemoUserTask>();
     }
-}
+} 
