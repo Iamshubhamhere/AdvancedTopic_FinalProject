@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 
 namespace AdvancedTopic_FinalProject.Models
-{
-    public class DemoUserProject
+{ 
+    public class DemoUserProject 
     {
         [Key]
         public int Id { get; set; }
