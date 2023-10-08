@@ -11,7 +11,7 @@ builder.Services.AddDbContext<TaskManagementContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<TaskUser>(options => {
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = false; 
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TaskManagementContext>();
